@@ -1,16 +1,13 @@
-function maximalSquare(matrix) {
-  if (matrix.length === 0) return 0;
-  const rows = matrix.length;
-  const cols = matrix[0].length;
-  const dp = Array.from(Array(rows + 1), () => Array(cols + 1).fill(0));
-  let maxSquare = 0;
-  for (let i = 1; i <= rows; i++) {
-    for (let j = 1; j <= cols; j++) {
-      if (matrix[i - 1][j - 1] === "1") {
-        dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1;
-        maxSquare = Math.max(maxSquare, dp[i][j]);
-      }
+function maxSlidingWindow(nums, k) {
+  const result = [];
+  const queue = [];
+  for (let i = 0; i < nums.length; i++) {
+    while (queue.length && nums[i] >= nums[queue[queue.length - 1]]) {
+      queue.pop();
     }
+    queue.push(i);
+    if (queue[0] === i - k) queue.shift();
+    if (i >= k - 1) result.push(nums[queue[0]]);
   }
-  return maxSquare * maxSquare;
+  return result;
 }
