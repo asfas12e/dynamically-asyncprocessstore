@@ -1,2 +1,11 @@
-const nthElement = (arr, n = 0) =>
-  (n > 0 ? arr.slice(n, n + 1) : arr.slice(n))[0];
+function minMeetingRooms(intervals) {
+  intervals.sort((a, b) => a[0] - b[0]);
+  const minHeap = new MinHeap();
+  for (const interval of intervals) {
+    if (minHeap.size() > 0 && minHeap.peek() <= interval[0]) {
+      minHeap.pop();
+    }
+    minHeap.push(interval[1]);
+  }
+  return minHeap.size();
+}
